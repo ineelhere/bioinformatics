@@ -1,3 +1,4 @@
+ 
 FROM ubuntu:18.04
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -15,14 +16,16 @@ RUN apt-get update \
     && curl -sL https://deb.nodesource.com/setup_10.x | bash - \
     && apt-get install -y nodejs \
     && pip3 install --upgrade pip \
-    && pip3 install pandas \
-    && pip3 install seaborn \
-    && pip3 install matplotlib \
-    && pip3 install numpy \
-    && pip3 install -U scikit-learn \
-    && pip3 install flowcraft \
+    && pip3 install pandas==1.3.0 \
+    && pip3 install seaborn==0.11.1 \
+    && pip3 install matplotlib==3.4.2 \
+    && pip3 install numpy==1.19.2 \
+    && pip3 install -U scikit-learn==0.24.2 \
+    && pip3 install flowcraft==1.4.1 \
     && pip3 install multiqc \
-    && pip3 install cutadapt 
+    && pip3 install cutadapt==3.4 
+
+
 # Install PollyCLI
 RUN apt install nodejs
 RUN npm install -g @elucidatainc/pollycli && polly version --version
