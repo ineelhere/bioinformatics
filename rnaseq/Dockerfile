@@ -51,23 +51,15 @@ RUN apt-get update -y
 RUN apt-get install -y rna-star
 
 # Install FastQC = https://hub.docker.com/r/biocontainers/fastqc/dockerfile
-ENV URL=http://www.bioinformatics.babraham.ac.uk/projects/fastqc/
-ENV ZIP=fastqc_v0.11.5.zip
-
-RUN wget $URL/$ZIP -O $DST/$ZIP && \
-  unzip - $DST/$ZIP -d $DST && \
-  rm $DST/$ZIP && \
-  cd $DST/FastQC && \
-  chmod 755 fastqc && \
-  ln -s $DST/FastQC/fastqc /usr/local/bin/fastqc
-  
-ENV PATH /usr/local/bin:$PATH
-
-CMD fastqc
-
+RUN apt update \
+    wget https://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.11.5.zip \
+    unzip fastqc_v0.11.5.zip \
+    cd FastQC/ \
+    chmod 755 fastqc \
+    export PATH=$PATH:$PWD \
+    cd / 
+    
 ENV PATH=$PATH:/usr/games/
 RUN curl -sSL https://github.com/COMBINE-lab/salmon/releases/download/v1.0.0/salmon-1.0.0_linux_x86_64.tar.gz | tar xz \
  && mv /salmon-*/bin/* /usr/bin/ \
  && mv /salmon-*/lib/* /usr/lib/
-
-WORKDIR /data/
